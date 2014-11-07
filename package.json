@@ -1,0 +1,9 @@
+{
+  "name": "easy-canvas",
+  "version": "0.0.1",
+  "description": "Simple canvas lib to learn canvases",
+  "devDependencies": {
+    "gulp": "^3.8.10",
+    "gulp-concat": "^2.4.1"
+  }
+}
