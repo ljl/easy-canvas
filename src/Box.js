@@ -3,8 +3,7 @@ ec.Box = function(canvas) {
     ec.FillObject.call(this, canvas);
 
     this.draw = function (noAdd) {
-        if (!noAdd) canvas.addItem(this);
-        console.log(noAdd);
+        canvas.addItem(this);
         if(this.getFillStyle()) {
             this.context.fillStyle = this.getFillStyle();
         }

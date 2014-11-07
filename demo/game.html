@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>easy-canvas demo page</title>
+</head>
+<body>
+    <h1>A game demo</h1>
+    <canvas id="gameCanvas"></canvas>
+    <script type="text/javascript" src="../dist/easy-canvas.js"></script>
+    <script type="text/javascript">
+        function Game() {
+            var canvas = new ec.Canvas("gameCanvas");
+            var points = 0;
+            var player = new ec.Box(canvas);
+            player.setX((300/2)-(50/2)).setY(145).setWidth(50).setHeight(5).setFillStyle("blue").draw();
+
+            var ball = new ec.Circle(canvas);
+            ball.setX((300/2)-(50/2)).setY(0).setWidth(5).setFillStyle("red").draw();
+            ball.goingUp = false;
+            ball.angle = 90;
+
+            var scoreText = new ec.Text(canvas);
+            scoreText.setFont("Georgia").setFontSize("15px").setX(280).setY(15).write(points);
+
+            setInterval(function() {
+                if (ball.goingUp) {
+                    ball.move(ball.getX() + (ball.angle / 90), ball.getY()-2);
+                    if (ball.getY() <= 0) {
+                        ball.goingUp = false;
+                        if (player.getX() > ball.getX()) {
+                            ball.angle = ball.angle - (player.getX() - ball.getX());
+                        } else {
+                            ball.angle = ball.angle - (player.getX() + ball.getX());
+                        }
+
+                    }
+                } else {
+                    ball.move(ball.getX(), ball.getY()+2);
+                    if (ball.getY() >= player.getY()-5 && ball.getX() >= player.getX() && ball.getX() <= player.getX()+50) {
+                        ball.goingUp = true;
+                        score();
+                    }
+                }
+            }, 30);
+
+            function score() {
+                points++;
+                scoreText.write(points);
+            }
+
+            document.addEventListener("keydown", function(event) {
+                if (event.keyCode == 37) {
+                    player.move(player.getX() - 5, player.getY());
+                } else if (event.keyCode == 39) {
+                    player.move(player.getX() + 5, player.getY());
+                }
+            });
+
+        }
+        document.addEventListener("DOMContentLoaded", function(e) {
+            new Game();
+        })
+    </script>
+</body>
+</html>

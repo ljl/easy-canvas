@@ -12,7 +12,7 @@ ec.Circle = function(canvas) {
     };
 
     this.draw = function (noAdd) {
-        if (!noAdd) canvas.addItem(this);
+        canvas.addItem(this);
         if(this.getFillStyle()) {
             this.context.fillStyle = this.getFillStyle();
         }
