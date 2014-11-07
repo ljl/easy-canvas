@@ -1,10 +1,30 @@
 var ec = ec || {};
-ec.Canvas = function(elementId) {
+ec.Canvas = function(elementId, optionParams) {
     var objects = [];
-    this.context = document.getElementById(elementId).getContext('2d');
+    var options = {
+        "width": 300,
+        "height": 150
+    };
+
+    // Override default options
+    if (optionParams) {
+        for (var option in options) {
+            if (optionParams[option]) {
+                options[option] = optionParams[option];
+            }
+        }
+    }
+
+    this.element = document.getElementById(elementId);
+    this.context = this.element.getContext('2d');
+
+    this.element.height = options.height;
+    this.element.width = options.width;
+
+
 
     this.redraw = function () {
-        this.context.clearRect(0, 0, 300, 150);
+        this.context.clearRect(0, 0, options.width, options.height);
         for (var obj in objects) {
             objects[obj].draw();
             this.context.fillStyle = "#000000"; // reset styles before drawing a new object

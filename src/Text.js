@@ -36,11 +36,12 @@ ec.Text = function(canvas) {
             canvas.redraw();
         } else {
             this.draw();
+            isDrawn = true;
         }
     };
 
-    this.draw = function(noAdd) {
-        if (!noAdd) canvas.addItem(this);
+    this.draw = function() {
+        canvas.addItem(this);
         this.context.font = this.fontSize + " " + this.font;
         this.context.fillText(this.text, this.offsetX, this.offsetY);
     }

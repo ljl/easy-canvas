@@ -122,12 +122,32 @@ ec.BoxStroke = function(canvas) {
 };
 ec.BoxStroke.prototype = Object.create(ec.StrokeObject.prototype);
 var ec = ec || {};
-ec.Canvas = function(elementId) {
+ec.Canvas = function(elementId, optionParams) {
     var objects = [];
-    this.context = document.getElementById(elementId).getContext('2d');
+    var options = {
+        "width": 300,
+        "height": 150
+    };
+
+    // Override default options
+    if (optionParams) {
+        for (var option in options) {
+            if (optionParams[option]) {
+                options[option] = optionParams[option];
+            }
+        }
+    }
+
+    this.element = document.getElementById(elementId);
+    this.context = this.element.getContext('2d');
+
+    this.element.height = options.height;
+    this.element.width = options.width;
+
+
 
     this.redraw = function () {
-        this.context.clearRect(0, 0, 300, 150);
+        this.context.clearRect(0, 0, options.width, options.height);
         for (var obj in objects) {
             objects[obj].draw();
             this.context.fillStyle = "#000000"; // reset styles before drawing a new object
@@ -187,6 +207,28 @@ ec.Circle = function(canvas) {
 ec.Circle.prototype = Object.create(ec.FillObject.prototype);
 
 var ec = ec || {};
+ec.Image = function (canvas) {
+    ec.CanvasObject.call(this, canvas);
+    this.imageEl = null;
+
+    this.fromUrl = function(url) {
+        var that = this;
+        var imageEl = this.imageEl = document.createElement("img");
+        imageEl.src = url;
+        console.log("setting source", url, imageEl);
+        imageEl.addEventListener("load", function() {
+            canvas.addItem(that);
+            canvas.context.drawImage(imageEl, 0,0,849,565);
+        });
+        return this;
+    };
+
+    this.draw = function() {
+        canvas.context.drawImage(this.imageEl, 0,0,849,565);
+    }
+};
+ec.Image.prototype = Object.create(ec.CanvasObject.prototype);
+var ec = ec || {};
 ec.Text = function(canvas) {
     this.context = canvas.context;
 
@@ -224,11 +266,12 @@ ec.Text = function(canvas) {
             canvas.redraw();
         } else {
             this.draw();
+            isDrawn = true;
         }
     };
 
-    this.draw = function(noAdd) {
-        if (!noAdd) canvas.addItem(this);
+    this.draw = function() {
+        canvas.addItem(this);
         this.context.font = this.fontSize + " " + this.font;
         this.context.fillText(this.text, this.offsetX, this.offsetY);
     }

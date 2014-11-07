@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<h1>Typewriter</h1>
+<canvas id="typing"></canvas>
+<input type="text" placeholder="Type something"/>
+<script type="text/javascript" src="../dist/easy-canvas.js"></script>
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+        var input = document.querySelector("input[type=text]");
+        input.focus();
+        var canvas = new ec.Canvas("typing", {"width": 849, "height": 565});
+        var text = new ec.Text(canvas);
+        text.setX(300).setY(100).setFont("Courier New").setFontSize("20px");
+
+        var imageCanvas = new ec.Image(canvas).fromUrl("typewriter.jpg");
+
+
+        input.addEventListener("input", function () {
+            var newText = this.value;
+            text.write(newText);
+        });
+    });
+
+</script>
+</body>
+</html>

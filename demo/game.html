@@ -37,6 +37,7 @@
                 } else {
                     ball.move(ball.getX(), ball.getY()+2);
                     if (ball.getY() >= player.getY()-5 && ball.getX() >= player.getX() && ball.getX() <= player.getX()+50) {
+                        //Ball hit player
                         ball.goingUp = true;
                         score();
                     }
