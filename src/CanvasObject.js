@@ -3,10 +3,10 @@ ec.CanvasObject = function(canvas) {
     if (!canvas instanceof ec.Canvas) throw new ec.CanvasException("Expected Canvas");
     this.context = canvas.context;
 
-    this.offsetX = null;
-    this.offsetY = null;
-    this.width = null;
-    this.height = null;
+    this.offsetX = 0;
+    this.offsetY = 0;
+    this.width = 0;
+    this.height = 0;
     this.fillStyle = null;
 
     this.getX = function () {

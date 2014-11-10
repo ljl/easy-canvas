@@ -7,16 +7,18 @@ ec.Image = function (canvas) {
         var that = this;
         var imageEl = this.imageEl = document.createElement("img");
         imageEl.src = url;
-        console.log("setting source", url, imageEl);
         imageEl.addEventListener("load", function() {
+            console.log(imageEl.width);
+            that.setWidth(imageEl.width);
+            that.setHeight(imageEl.height);
             canvas.addItem(that);
-            canvas.context.drawImage(imageEl, 0,0,849,565);
+            canvas.context.drawImage(imageEl, that.getX(),that.getX(),that.getWidth(),that.getHeight());
         });
         return this;
     };
 
     this.draw = function() {
-        canvas.context.drawImage(this.imageEl, 0,0,849,565);
+        canvas.context.drawImage(this.imageEl, this.getX(),this.getY(),this.getWidth(),this.getHeight());
     }
 };
 ec.Image.prototype = Object.create(ec.CanvasObject.prototype);
